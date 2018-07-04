@@ -36,6 +36,11 @@ function pushOperator() {
   if (multiDigit.length > 0) {
     pushNumber();
   }
+  else {
+    // In case no numbers have been entered yet, default to the first number being 0
+    multiDigit = "0";
+    pushNumber();
+  }
   calculation.push(this.textContent);
   $display.textContent = this.textContent;
   //= was not the last key hit so resetting this
@@ -97,3 +102,17 @@ function calculate() {
 // Don't need the for loop here because it's just one element
 let $equate = document.querySelector(".equate-button");
 $equate.addEventListener("click", calculate);
+
+// Adding the positive/negative button =========================================
+function switchNumber() {
+  if (multiDigit[0] === "-") {
+    multiDigit = multiDigit.slice(1);
+  }
+  else {
+    multiDigit = "-" + multiDigit;
+  }
+  $display.textContent = multiDigit;
+}
+
+let $posNeg = document.querySelector(".positive-negative");
+$posNeg.addEventListener("click", switchNumber);
