@@ -6,6 +6,10 @@ img {
   width: 100%;
 }
 
+.container {
+  margin-top: 50px;
+}
+
 .display {
   width: 100%;
   height: 100px;
@@ -30,5 +34,9 @@ img {
 }
 
 .numbers-row .operator {
+  background-color: #EA9648;
+}
+
+.numbers-row .equate-button {
   background-color: #EA9648;
 }
