@@ -1,24 +1,35 @@
+
 let calculation = [];
 let $display = document.querySelector(".display-text");
+let multiDigit = "";
 
 // Function that gets called on click, is automatically passed "this" which is the DOM element that was clicked
-function pushNumber() {
-  number = parseInt(this.textContent, 10);
-  calculation.push(number);
-  $display.textContent = number;
+function getNumber() {
+  number = this.textContent;
+  multiDigit += number;
+  $display.textContent = multiDigit;
 }
 
 // querySelectorAll returns an array
 let $numButton = document.querySelectorAll(".number-button");
 // Cycle through the list of DOM elements returned above and apply the event listener
 for (let x = 0; x < $numButton.length; x++) {
-  $numButton[x].addEventListener("click", pushNumber);
+  $numButton[x].addEventListener("click", getNumber);
+}
+
+// Function to push the multiDigit number to the calculation list ==============
+function pushNumber() {
+  calculation.push(parseInt(multiDigit));
+  multiDigit = "";
 }
 
 // Same above but for the operator buttons =====================================
 function pushOperator() {
+  // pushNumber needs to be called first, otherwise the operator gets put in the wrong place
+  pushNumber();
   calculation.push(this.textContent);
   $display.textContent = this.textContent;
+  // Call pushNumber to push the multiDigit number to calculations
 }
 
 let $operator = document.querySelectorAll(".operator");
@@ -30,6 +41,7 @@ for (let x = 0; x < $operator.length; x++) {
 function clearAll() {
   calculation = [];
   $display.textContent = 0;
+  multiDigit = "";
 }
 
 // Don't need the for loop here because it's just one element
@@ -47,6 +59,9 @@ var doMath = {
 
 // Calculate function to perform all operations ================================
 function calculate() {
+  // Do a push of the last multiDigit number
+  pushNumber();
+
   let total = 0;
   let num1 = 0;
   let num2 = 0;
@@ -56,7 +71,7 @@ function calculate() {
   for (let x = 1; x < calculation.length; x += 2) {
     // X at 1 is a special case.  Operators will be odd indices, numbers on even.
     //By starting x at 1, you can increment by two jumping to each operators
-    //On the first pass you just grab the first number 
+    //On the first pass you just grab the first number
     if (x === 1) {
       num1 = calculation[x - 1];
     }
