@@ -2,12 +2,18 @@
 let calculation = [];
 let $display = document.querySelector(".display-text");
 let multiDigit = "";
+let equalsPrior = false;
 
 // Function that gets called on click, is automatically passed "this" which is the DOM element that was clicked
 function getNumber() {
+  if (equalsPrior) {
+    clearAll();
+  }
   number = this.textContent;
   multiDigit += number;
   $display.textContent = multiDigit;
+  //= was not the last key hit so resetting this
+  equalsPrior = false;
 }
 
 // querySelectorAll returns an array
@@ -25,11 +31,15 @@ function pushNumber() {
 
 // Same above but for the operator buttons =====================================
 function pushOperator() {
+  // Call pushNumber to push the multiDigit number to calculations
   // pushNumber needs to be called first, otherwise the operator gets put in the wrong place
-  pushNumber();
+  if (multiDigit.length > 0) {
+    pushNumber();
+  }
   calculation.push(this.textContent);
   $display.textContent = this.textContent;
-  // Call pushNumber to push the multiDigit number to calculations
+  //= was not the last key hit so resetting this
+  equalsPrior = false;
 }
 
 let $operator = document.querySelectorAll(".operator");
@@ -81,6 +91,7 @@ function calculate() {
     num1 = total;
   }
   $display.textContent = total;
+  equalsPrior = true;
 }
 
 // Don't need the for loop here because it's just one element
