@@ -25,7 +25,7 @@ for (let x = 0; x < $numButton.length; x++) {
 
 // Function to push the multiDigit number to the calculation list ==============
 function pushNumber() {
-  calculation.push(parseInt(multiDigit));
+  calculation.push(parseFloat(multiDigit, 10));
   multiDigit = "";
 }
 
