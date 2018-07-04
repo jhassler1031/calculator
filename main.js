@@ -38,8 +38,10 @@ function pushOperator() {
   }
   else {
     // In case no numbers have been entered yet, default to the first number being 0
-    multiDigit = "0";
-    pushNumber();
+    if (calculation.length < 1) {
+      multiDigit = "0";
+      pushNumber();
+    }
   }
   calculation.push(this.textContent);
   $display.textContent = this.textContent;
@@ -96,6 +98,9 @@ function calculate() {
     num1 = total;
   }
   $display.textContent = total;
+  // Clear calculation and multiDigit and add total to calculation in case of further calculations to be made
+  calculation = [];
+  calculation.push(total);
   equalsPrior = true;
 }
 
@@ -116,3 +121,24 @@ function switchNumber() {
 
 let $posNeg = document.querySelector(".positive-negative");
 $posNeg.addEventListener("click", switchNumber);
+
+// Adding the % button =========================================================
+function makePercent() {
+  // If running percent on running total, need to check in calculations first for
+  //a running today and modify that.
+  if (equalsPrior) {
+    calculation[0] /= 100;
+    $display.textContent = calculation[0];
+  }
+  //if no running totaly, convert multiDigit to number, divide by 100, then convert
+  //back into a string so pushNumber will continue to work as expected
+  else {
+    multiDigit = parseFloat(multiDigit);
+    multiDigit /= 100;
+    multiDigit= multiDigit.toString(10);
+    $display.textContent = multiDigit;
+  }
+}
+
+let $percentButton = document.querySelector(".percent-button");
+$percentButton.addEventListener("click", makePercent);
