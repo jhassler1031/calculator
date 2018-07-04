@@ -48,10 +48,22 @@ var doMath = {
 // Calculate function to perform all operations ================================
 function calculate() {
   let total = 0;
+  let num1 = 0;
+  let num2 = 0;
+  let operator = "";
 
   // Perform calculations ==========================
-  for (let x = 0; x < calculation.length; x += 3) {
-    total = doMath[calculation[x + 1]](calculation[x], calculation[x + 2]);
+  for (let x = 1; x < calculation.length; x += 2) {
+    // X at 1 is a special case.  Operators will be odd indices, numbers on even.
+    //By starting x at 1, you can increment by two jumping to each operators
+    //On the first pass you just grab the first number 
+    if (x === 1) {
+      num1 = calculation[x - 1];
+    }
+    num2 = calculation[x + 1];
+    operator = calculation[x];
+    total = doMath[operator](num1, num2);
+    num1 = total;
   }
   $display.textContent = total;
 }
